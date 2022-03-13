@@ -1,7 +1,10 @@
 # Smart Car Color Recognition
 ## Introduction
-This project uses "Smart Robot Car V4.0 with camera" (link: https://www.elegoo.com/products/elegoo-smart-robot-car-kit-v-4-0).
-To be precise, the car reacts to the colors (red and blue at the moment), thansk to the python's OpenCV library. 
+This project uses "Smart Robot Car V4.0 with camera". At [this link](https://www.elegoo.com/products/elegoo-smart-robot-car-kit-v-4-0) it is possible to see all the componens provided by this kit. To be precise, the car follow a black line but it also reacts to the colors such as for example a red traffic sign or blue one. In particular, at the moment, when the robot car sees a red color, it'll stop for two seconds; when the robot car sees a blue color, it'll tourn around. All of these features were implemented by using the Arduino IDE and python's OpenCV and Numpy libraries.
+
+## Explainer video
+
+
 ## Project structure
 <img src="https://img.icons8.com/color/20/000000/folder-invoices--v1.png"/> Arduino
 
@@ -43,6 +46,41 @@ To be precise, the car reacts to the colors (red and blue at the moment), thansk
 
 &emsp;&emsp;&emsp;<img src="https://img.icons8.com/plasticine/20/000000/file.png"/> arduino_reciver.ino
 
+<img src="https://img.icons8.com/color/20/000000/folder-invoices--v1.png"/> python
+
+&emsp;<img src="https://img.icons8.com/plasticine/20/000000/file.png"/> col_det_screen_view.py
+
+&emsp;<img src="https://img.icons8.com/plasticine/20/000000/file.png"/> color_detection.py
+
 ## Arduino code
-Arduino code is composed by two parts. In order to recognize the color, it has been used python code
-### Send Image
+Arduino code is composed by three parts:
+1. at the beginning, in order to recognize colors it was necessary to send images by esp32 module, on python client;
+2. after this, the second step is to get back the python result after the image processing;
+3. so, now, the esp32 module send the response to arduino board in order to control the wheels. 
+4. wheels control
+
+### 1. Send Image to python client
+The first step is to send frame by frame images to a client implemented in python. The `WebServer.h` library is used for this. In the file 	`arduino.ino`, below the main folder, you'll find everything you're looking for to start. There are several comments in the code to help you in finding. 
+
+### 2. Get back the python response
+The second step is to get back the python response. To do this we have been used `WiFiServer.h` and `WiFi.h` libraries. Remember that, if you have started the previous WebServer on the port 80 (for example) you mustn't choose the same port for the WiFiServer. As we have just said previously in the file 	`arduino.ino`, below the main folder, you'll find everything you're looking for. There are several comments in the code to help you in finding.
+
+### 3. Send response to arduino board
+The third step is to send response to arduino board. To do this, since that the esp32 module has three `Serial`(s) ([documentation here](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)) we just used this feature to send data from esp32module to Arduino Uno board.  As we have just said previously in the file 	`arduino.ino`, below the main folder, you'll find everything you're looking for. There are several comments in the code to help you in finding.
+
+### 4. wheels control
+This part is developed in the `arduino_receiver.ino` file, below the folder named in the same way. In particular, the code takes up the line tracking algorithm (just implemented by Elegoo team), but in addition it reads from the _Serial_ and checks the _ASCII code_ just red in order to check whether the color detected is red ('r') or blue ('b'). 
+
+## Python code
+Python code is composed by two files, that are stored in the folder `python`, below the main folder. 
+- `color_detection.py` file is very useful in order to find the values of HSV colors. The values that you'll find by using this script must be insert in the second file in order to detect color. 
+- `col_det_screen_view.py` file is the core of the image processing. As we preaviously said, this script takes frame by frame the images from the ip address, looking for a red or blue color. When it detects them, it draw a circle around the object and label it with the color. In addition, through a socket it's possible to send the result of color detection to the server implemented in Arduino. As the preavious codes, there are several comments in order to be absolutely clear. 
+
+# Contact us
+For more info about this project you can contact us here:
+```
+francescaperillo15@gmail.com
+```
+```
+ussilvio@gmail.com
+```
