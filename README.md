@@ -3,7 +3,7 @@
 This project uses "Smart Robot Car V4.0 with camera". At [this link](https://www.elegoo.com/products/elegoo-smart-robot-car-kit-v-4-0) it is possible to see all the componens provided by this kit. To be precise, the car follows a black line but it also reacts to the colors such as for example a red traffic sign or blue one. In particular, at the moment, when the robot car sees a red color, it'll stop for two seconds; when the robot car sees a blue color, it'll tourn around. All of these features were implemented by using the Arduino IDE, python's OpenCV and Numpy libraries.
 
 ## Explainer video
-
+https://user-images.githubusercontent.com/57345578/158220047-0b580dc4-a6f4-4b2b-b78d-20550f9b1072.mp4
 
 ## Project structure
 <img src="https://img.icons8.com/color/20/000000/folder-invoices--v1.png"/> Arduino
